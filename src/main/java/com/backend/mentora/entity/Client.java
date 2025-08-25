@@ -29,7 +29,7 @@ public class Client extends User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "preferred_session_mode")
-    private SessionMode sessionMode;
+    private SessionMode preferredSessionMode;
 
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private QuestionnaireResponse questionnaireResponse;
