@@ -73,5 +73,5 @@ public class AuthController {
     public ResponseEntity<String> logout() {
         return ResponseEntity.ok("Logout effettuato");
     }
-    
+
 }
