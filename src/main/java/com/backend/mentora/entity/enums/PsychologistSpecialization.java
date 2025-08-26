@@ -23,7 +23,6 @@ public enum PsychologistSpecialization {
     public static PsychologistSpecialization getByAge(int age) {
         for (PsychologistSpecialization spec : values()) {
             if (age >= spec.getMinAge() && age <= spec.getMaxAge()) return spec;
-            return spec;
         }
         return ADULT_PSYCHOLOGY;
     }

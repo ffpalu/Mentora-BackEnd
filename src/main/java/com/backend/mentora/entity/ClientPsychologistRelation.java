@@ -40,7 +40,7 @@ public class ClientPsychologistRelation {
     private LocalDateTime respondedAt;
 
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @Column(columnDefinition = "TEXT")
     private String notes;

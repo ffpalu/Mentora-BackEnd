@@ -48,7 +48,7 @@ public class QuestionnaireResponse {
     private Priority calculatedPriority;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "required_specialization")
+    @Column(name = "required_specialization", nullable = false)
     private PsychologistSpecialization requiredSpecialization;
 
     @Column(name = "grief_timeline_months")
@@ -75,10 +75,11 @@ public class QuestionnaireResponse {
     @Column(name = "violent_behaviors_frequency")
     private String violentBehaviorsFrequency;
 
-    @Column(name = "completed_at")
+    @Column(name = "completed_at", nullable = false)
     private LocalDateTime completedAt;
 
 
+    @PrePersist
     protected void onCreate() {
         completedAt = LocalDateTime.now();
         calculatePriority();
