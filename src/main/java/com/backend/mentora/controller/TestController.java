@@ -1,6 +1,7 @@
 package com.backend.mentora.controller;
 
 import com.backend.mentora.entity.Client;
+import com.backend.mentora.entity.Location;
 import com.backend.mentora.entity.Psychologist;
 import com.backend.mentora.entity.User;
 import com.backend.mentora.repository.ClientRepository;
@@ -203,7 +204,7 @@ public class TestController {
         response.put("specializations", psychologist.getSpecializations());
         response.put("offersOnline", psychologist.getOffersOnlineSession());
         response.put("offersInPerson", psychologist.getOffersInPersonSession());
-        response.put("Locations", psychologist.getOperatingLocations().stream().map(location -> location.getCity()).toList());
+        response.put("Locations", psychologist.getOperatingLocations().stream().map(Location::getCity).toList());
         response.put("isActive", psychologist.getIsActive());
 
         return response;
