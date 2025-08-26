@@ -1,7 +1,7 @@
 package com.backend.mentora.entity;
 
-import com.backend.mentora.utils.SessionMode;
-import com.backend.mentora.utils.UserRole;
+import com.backend.mentora.entity.enums.SessionMode;
+import com.backend.mentora.entity.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

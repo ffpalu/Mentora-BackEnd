@@ -1,4 +1,4 @@
-package com.backend.mentora.utils;
+package com.backend.mentora.entity.enums;
 
 public enum PsychologistSpecialization {
     CHILD_PSYCHOLOGY("Psicologo dell'età evolutiva", 0,11),

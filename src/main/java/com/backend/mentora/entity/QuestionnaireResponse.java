@@ -1,7 +1,7 @@
 package com.backend.mentora.entity;
 
-import com.backend.mentora.utils.Priority;
-import com.backend.mentora.utils.PsychologistSpecialization;
+import com.backend.mentora.entity.enums.Priority;
+import com.backend.mentora.entity.enums.PsychologistSpecialization;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
@@ -44,11 +44,11 @@ public class QuestionnaireResponse {
     private Integer behaviorsDurationMonths;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "calculated_priority")
     private Priority calculatedPriority;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "required_specialization", nullable = false)
+    @Column(name = "required_specialization")
     private PsychologistSpecialization requiredSpecialization;
 
     @Column(name = "grief_timeline_months")
@@ -75,7 +75,7 @@ public class QuestionnaireResponse {
     @Column(name = "violent_behaviors_frequency")
     private String violentBehaviorsFrequency;
 
-    @Column(name = "completed_at", nullable = false)
+    @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
 

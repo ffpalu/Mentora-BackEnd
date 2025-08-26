@@ -1,8 +1,8 @@
 package com.backend.mentora.entity;
 
-import com.backend.mentora.utils.PsychologistSpecialization;
-import com.backend.mentora.utils.RequestStatus;
-import com.backend.mentora.utils.UserRole;
+import com.backend.mentora.entity.enums.PsychologistSpecialization;
+import com.backend.mentora.entity.enums.RequestStatus;
+import com.backend.mentora.entity.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

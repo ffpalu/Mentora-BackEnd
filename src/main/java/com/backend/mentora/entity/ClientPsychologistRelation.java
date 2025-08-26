@@ -1,7 +1,7 @@
 package com.backend.mentora.entity;
 
-import com.backend.mentora.utils.Priority;
-import com.backend.mentora.utils.RequestStatus;
+import com.backend.mentora.entity.enums.Priority;
+import com.backend.mentora.entity.enums.RequestStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

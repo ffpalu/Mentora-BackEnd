@@ -1,4 +1,4 @@
-package com.backend.mentora.config;
+package com.backend.mentora.repository;
 
 import com.backend.mentora.entity.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
