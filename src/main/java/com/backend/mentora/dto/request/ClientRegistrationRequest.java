@@ -1,9 +1,7 @@
 package com.backend.mentora.dto.request;
 
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
@@ -25,7 +23,9 @@ public class ClientRegistrationRequest {
     @Size(max = 50, message = "Massimo 50 caratteri per il cognome")
     private String lastName;
 
-    @NotBlank(message = "Età obbligatoria")
+    @NotNull(message = "Età obbligatoria")
+    @Min(value = 1, message = "Età deve essere almeno di 1")
+    @Max(value = 120, message = "Età deve essere al massimo di 120")
     private Integer age;
 
     private String phoneNumber;
