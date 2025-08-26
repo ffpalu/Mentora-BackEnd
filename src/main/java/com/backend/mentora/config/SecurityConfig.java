@@ -60,10 +60,10 @@ public class SecurityConfig {
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/h2-console/**").permitAll()
-						.requestMatchers("/api/auth/**").permitAll()  // ← Deve essere PRIMA di anyRequest()
+						.requestMatchers("/api/auth/**").permitAll()
 						.requestMatchers("/api/test/**").permitAll()
 						.requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
-						.anyRequest().authenticated()  // ← Questo DOPO i permitAll()
+						.anyRequest().authenticated()
 				)
 			.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
 			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
