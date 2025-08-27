@@ -1,0 +1,68 @@
+package com.backend.mentora.controller;
+
+
+import com.backend.mentora.dto.request.UpdateProfileRequest;
+import com.backend.mentora.dto.response.ProfileResponse;
+import com.backend.mentora.dto.response.UserResponse;
+import com.backend.mentora.service.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/users")
+@RequiredArgsConstructor
+public class UserController {
+
+    private final UserService userService;
+
+
+    @GetMapping("/profile")
+    public ResponseEntity<ProfileResponse> getCurrentUserProfile(Authentication authentication) {
+        ProfileResponse profileResponse = userService.getUserProfile(authentication.getName());
+        return ResponseEntity.ok(profileResponse);
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<ProfileResponse> getCurrentUserProfile(
+            @Valid @RequestBody UpdateProfileRequest request,
+            Authentication auth
+            ) {
+        ProfileResponse updated = userService.updateUserProfile(auth.getName(), request);
+        return ResponseEntity.ok(updated);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> getUserById (@PathVariable Long id) {
+        UserResponse user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/account")
+    public ResponseEntity<String> deactivateAccount(Authentication auth) {
+        userService.deactivateUser(auth.getName());
+        return ResponseEntity.ok("User has been deactivated");
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<String> changePassword(
+            @RequestParam String currentPassword,
+            @RequestParam String newPassword,
+            Authentication auth) {
+
+        userService.changePassword(auth.getName(), currentPassword, newPassword);
+        return ResponseEntity.ok("Password aggiornata con successo");
+    }
+
+
+    @GetMapping("/clients")
+    @PreAuthorize("hasRole('PSYCHOLOGIST')")
+    public ResponseEntity<?> getMyClients(Authentication auth) {
+        //TODO
+        return ResponseEntity.ok("Lista clienti - implementazione futura");
+    }
+
+}
