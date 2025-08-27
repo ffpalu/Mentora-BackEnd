@@ -74,13 +74,18 @@ public class SecurityConfig {
  	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of("http://localhost:*"));
-		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		configuration.setAllowedOrigins(List.of(
+						"http://localhost:3000",    // React
+						"http://localhost:5173",    // Vite
+						"http://localhost:5174"     // Vite alternative
+		));
+		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 		configuration.setAllowedHeaders(List.of("*"));
 		configuration.setAllowCredentials(true);
+		configuration.setExposedHeaders(List.of("Authorization"));
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/api/**", configuration);
+		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
 }
