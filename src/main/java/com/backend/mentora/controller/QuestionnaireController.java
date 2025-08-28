@@ -1,0 +1,43 @@
+package com.backend.mentora.controller;
+
+
+import com.backend.mentora.dto.request.QuestionnaireRequest;
+import com.backend.mentora.dto.response.QuestionnaireResultResponse;
+import com.backend.mentora.entity.QuestionnaireResponse;
+import com.backend.mentora.service.QuestionnaireService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/questionnaire")
+@RequiredArgsConstructor
+@PreAuthorize("hasRole('CLIENT')")
+public class QuestionnaireController {
+
+    private final QuestionnaireService questionnaireService;
+
+    @PostMapping
+    public ResponseEntity<QuestionnaireResultResponse> submitQuestionnaire(
+            @Valid @RequestBody QuestionnaireRequest request,
+            Authentication auth
+            ){
+
+        QuestionnaireResultResponse response = questionnaireService.processQuestionnaire(auth.getName(), request);
+
+        return ResponseEntity.ok(response);
+
+    }
+
+    @GetMapping
+    public ResponseEntity<QuestionnaireResponse> getQuestionnaire(Authentication auth) {
+        QuestionnaireResponse response = questionnaireService.getClientQuestionnaire(auth.getName());
+        return ResponseEntity.ok(response);
+    }
+
+
+
+}
