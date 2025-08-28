@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +44,27 @@ public class MatchingService {
             return psychologistRepository.findBySpecializationAndSessionMode(specialization, sessionMode);
     }
 
+
+    private List<Psychologist> findPsychologists(String city,
+                                                 PsychologistSpecialization specialization, SessionMode sessionMode) {
+
+        List<Psychologist> candidates = psychologistRepository.findBySpecialization(specialization);
+
+        return candidates.stream()
+                .filter(p -> matchesSessionMode(p, sessionMode))
+                .filter(p -> city == null || p.operatesInCity(city))
+                .collect(Collectors.toList());
+    }
+
+    private boolean matchesSessionMode(Psychologist p, SessionMode mode) {
+        if (mode == null || mode == SessionMode.INDIFFERENT) return true;
+        return switch (mode) {
+            case ONLINE -> p.getOffersOnlineSessions();
+            case IN_PERSON -> p.getOffersInPersonSessions();
+            case MIXED -> p.getOffersOnlineSessions() && p.getOffersInPersonSessions();
+            default -> true;
+        };
+    }
 
 
 

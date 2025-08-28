@@ -60,8 +60,8 @@ public class DataInitializer implements CommandLineRunner {
 						"Esperienza nel trattamento di ansia, depressione e disturbi dell'umore.");
 		drRossi.setYearsExperience(8);
 		drRossi.setHourlyRate(new BigDecimal("80.00"));
-		drRossi.setOffersOnlineSession(true);
-		drRossi.setOffersInPersonSession(true);
+		drRossi.setOffersOnlineSessions(true);
+		drRossi.setOffersInPersonSessions(true);
 		drRossi.getSpecializations().add(PsychologistSpecialization.ADULT_PSYCHOLOGY);
 		drRossi.getOperatingLocations().add(milano);
 		drRossi.getOperatingLocations().add(roma);
@@ -78,7 +78,7 @@ public class DataInitializer implements CommandLineRunner {
 						"e supporto psicologico per bambini e adolescenti.");
 		drBianchi.setYearsExperience(12);
 		drBianchi.setHourlyRate(new BigDecimal("90.00"));
-		drBianchi.setOffersOnlineSession(true);
+		drBianchi.setOffersOnlineSessions(true);
 		drBianchi.getSpecializations().add(PsychologistSpecialization.CHILD_PSYCHOLOGY);
 		drBianchi.getSpecializations().add(PsychologistSpecialization.ADOLESCENT_PSYCHOLOGY);
 		drBianchi.getOperatingLocations().add(milano);
@@ -95,7 +95,7 @@ public class DataInitializer implements CommandLineRunner {
 						"e nel supporto per traumi e disturbi post-traumatici.");
 		drVerdi.setYearsExperience(15);
 		drVerdi.setHourlyRate(new BigDecimal("100.00"));
-		drVerdi.setOffersOnlineSession(false); // Solo in presenza
+		drVerdi.setOffersOnlineSessions(false); // Solo in presenza
 		drVerdi.getSpecializations().add(PsychologistSpecialization.ADULT_PSYCHOLOGY);
 		drVerdi.getOperatingLocations().add(torino);
 

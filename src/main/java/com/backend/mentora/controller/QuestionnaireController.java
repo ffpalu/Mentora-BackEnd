@@ -2,6 +2,7 @@ package com.backend.mentora.controller;
 
 
 import com.backend.mentora.dto.request.QuestionnaireRequest;
+import com.backend.mentora.dto.response.QuestionnaireResponseDTO;
 import com.backend.mentora.dto.response.QuestionnaireResultResponse;
 import com.backend.mentora.entity.QuestionnaireResponse;
 import com.backend.mentora.service.QuestionnaireService;
@@ -33,8 +34,28 @@ public class QuestionnaireController {
     }
 
     @GetMapping
-    public ResponseEntity<QuestionnaireResponse> getQuestionnaire(Authentication auth) {
-        QuestionnaireResponse response = questionnaireService.getClientQuestionnaire(auth.getName());
+    public ResponseEntity<QuestionnaireResponseDTO> getQuestionnaire(Authentication auth) {
+        QuestionnaireResponse questionnaire = questionnaireService.getClientQuestionnaire(auth.getName());
+
+        QuestionnaireResponseDTO response = QuestionnaireResponseDTO.builder()
+                .id(questionnaire.getId())
+                .client(questionnaire.getClient().getFullName())
+                .mainReasons(questionnaire.getMainReasons())
+                .emotionalStates(questionnaire.getEmotionalStates())
+                .emotionalDurationMonths(questionnaire.getEmotionalDurationMonths())
+                .associatedBehaviors(questionnaire.getAssociatedBehaviors())
+                .behaviorsDurationMonths(questionnaire.getBehaviorsDurationMonths())
+                .griefTimelineMonths(questionnaire.getGriefTimelineMonths())
+                .hasSocialSupport(questionnaire.getHasSocialSupport())
+                .showsDepressiveSymptoms(questionnaire.getShowsDepressiveSymptoms())
+                .depressiveSymptomsMonths(questionnaire.getDepressiveSymptomsMonths())
+                .impactLevel(questionnaire.getImpactLevel())
+                .addictionType(questionnaire.getAddictionType())
+                .isInRehabilitation(questionnaire.getIsInRehabilitation())
+                .violentBehaviorsFrequency(questionnaire.getViolentBehaviorsFrequency())
+                .completedAt(questionnaire.getCompletedAt())
+                .build();
+
         return ResponseEntity.ok(response);
     }
 

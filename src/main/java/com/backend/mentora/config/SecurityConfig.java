@@ -64,6 +64,7 @@ public class SecurityConfig {
 						.requestMatchers("/api/test/**").permitAll()
 						.requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
 						.requestMatchers("/api/users/**").authenticated()
+						.requestMatchers("/api/questionnaire/**").authenticated()
 						.anyRequest().authenticated()
 				)
 			.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))

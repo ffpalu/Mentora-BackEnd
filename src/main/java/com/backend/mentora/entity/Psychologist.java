@@ -38,10 +38,10 @@ public class Psychologist extends User{
     private BigDecimal hourlyRate;
 
     @Column(name = "offers_online_sessions", nullable = false)
-    private Boolean offersOnlineSession = true;
+    private Boolean offersOnlineSessions = true;
 
     @Column(name = "offers_in_person_sessions", nullable = false)
-    private Boolean offersInPersonSession = true;
+    private Boolean offersInPersonSessions = true;
 
     @ElementCollection(targetClass = PsychologistSpecialization.class)
     @Enumerated(EnumType.STRING)

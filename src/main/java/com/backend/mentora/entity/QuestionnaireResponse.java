@@ -2,6 +2,7 @@ package com.backend.mentora.entity;
 
 import com.backend.mentora.entity.enums.Priority;
 import com.backend.mentora.entity.enums.PsychologistSpecialization;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;

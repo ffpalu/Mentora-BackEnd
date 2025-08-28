@@ -93,7 +93,7 @@ public class TestController {
             response.put("licenseNumber", psychologist.getLicenseNumber());
             response.put("yearsExperience", psychologist.getYearsExperience());
             response.put("specializations",  psychologist.getSpecializations());
-            response.put("offersOnline", psychologist.getOffersOnlineSession());
+            response.put("offersOnline", psychologist.getOffersOnlineSessions());
         }
 
         return ResponseEntity.ok(response);
@@ -202,8 +202,8 @@ public class TestController {
         response.put("yearsExperience", psychologist.getYearsExperience());
         response.put("hourlyRate", psychologist.getHourlyRate());
         response.put("specializations", psychologist.getSpecializations());
-        response.put("offersOnline", psychologist.getOffersOnlineSession());
-        response.put("offersInPerson", psychologist.getOffersInPersonSession());
+        response.put("offersOnline", psychologist.getOffersOnlineSessions());
+        response.put("offersInPerson", psychologist.getOffersInPersonSessions());
         response.put("Locations", psychologist.getOperatingLocations().stream().map(Location::getCity).toList());
         response.put("isActive", psychologist.getIsActive());
 

@@ -91,7 +91,7 @@ public class QuestionnaireService {
     }
 
 
-    private String getPriorityMessage(Priority priority) {
+    public String getPriorityMessage(Priority priority) {
         return switch (priority){
             case HIGH -> "La tua situazione richiede supporto immediato. Ti consigliamo di contattare un professionista entro 1 settimana";
             case MODERATE -> "La tua situazione richiedde attenzione. Ti consigliamo di fissare un appuntamento entro 2 settimane";
@@ -99,7 +99,7 @@ public class QuestionnaireService {
         };
     }
 
-    private String getSpecializationMessage(PsychologistSpecialization spec) {
+    public String getSpecializationMessage(PsychologistSpecialization spec) {
         return switch (spec) {
             case CHILD_PSYCHOLOGY -> "Hai bisogno di uno psicologo specializzato nell'età evolutiva.";
             case ADOLESCENT_PSYCHOLOGY -> "Hai bisogno di uno psicologo specializzato negli adolescenti.";
@@ -108,7 +108,7 @@ public class QuestionnaireService {
         };
     }
 
-    private String getNextStepsMessage(Priority priority) {
+    public String getNextStepsMessage(Priority priority) {
         return switch (priority){
             case HIGH -> "Contatta immediatamente uno ddei professionisti suggeriti. In caso di emergenza, rivolgiti al pronto soccorso.";
             case MODERATE -> "Invia una richiesta a uno dei professionisti suggeriti per iniziare il percorso di supporto.";
@@ -128,7 +128,7 @@ public class QuestionnaireService {
                                 .map(PsychologistSpecialization::getDescription)
                                 .collect(Collectors.toList())
                             )
-                        .offersOnlineSessions(p.getOffersOnlineSession())
+                        .offersOnlineSessions(p.getOffersOnlineSessions())
                         .operatingCities(p.getOperatingLocations().stream()
                                 .map(Location::getCity)
                                 .collect(Collectors.toList())
@@ -142,7 +142,7 @@ public class QuestionnaireService {
         if(client.getLocation() != null && psychologist.operatesInCity(client.getLocation().getCity())){
             return "Opera nella tua città";
         }
-        if(psychologist.getOffersOnlineSession()) {
+        if(psychologist.getOffersOnlineSessions()) {
             return "Offre sessioni online";
         }
         return "Specializzazione compatibile";

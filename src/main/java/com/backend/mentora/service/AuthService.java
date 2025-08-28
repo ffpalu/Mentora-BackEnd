@@ -94,8 +94,8 @@ public class AuthService {
         psychologist.setPhoneNumber(request.getPhoneNumber());
         psychologist.setBiography(request.getBiography());
         psychologist.setYearsExperience(request.getYearsExperience());
-        psychologist.setOffersOnlineSession(request.getOffersOnlineSession());
-        psychologist.setOffersInPersonSession(request.getOffersInPersonSession());
+        psychologist.setOffersOnlineSessions(request.getOffersOnlineSession());
+        psychologist.setOffersInPersonSessions(request.getOffersInPersonSession());
         psychologist.getOperatingLocations().add(location);
 
         Psychologist savedPsychologist = psychologistRepository.save(psychologist);

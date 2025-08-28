@@ -15,16 +15,17 @@ import java.util.Optional;
 public interface PsychologistRepository extends JpaRepository<Psychologist, Long> {
 	Optional<Psychologist> findByEmail(String email);
 	Optional<Psychologist> findByLicenseNumber(String licenseNumber);
+
+
 	@Query("""
-        SELECT DISTINCT p FROM Psychologist p
-        JOIN p.specializations s
-        WHERE s =:specialization
-        AND p.isActive = true 
-        AND (:sessionMode = 'INDIFFERENT'
-                OR (:sessionMode = 'ONLINE' AND p.offersOnlineSession = true )
-                OR (:sessionMode IN ('IN_PERSON', 'MIXED') AND p.offersInPersonSession = true ))
-        """
-	)
+    SELECT DISTINCT p FROM Psychologist p 
+    JOIN p.specializations s 
+    WHERE s = :specialization 
+    AND p.isActive = true
+    AND (CAST(:sessionMode AS string) = 'INDIFFERENT' 
+         OR (CAST(:sessionMode AS string) = 'ONLINE' AND p.offersOnlineSessions = true)
+         OR (CAST(:sessionMode AS string) IN ('IN_PERSON', 'MIXED') AND p.offersInPersonSessions = true))
+    """)
 	List<Psychologist> findBySpecializationAndSessionMode(
 			@Param("specialization") PsychologistSpecialization specialization,
 			@Param("sessionMode") SessionMode sessionMode
@@ -34,7 +35,7 @@ public interface PsychologistRepository extends JpaRepository<Psychologist, Long
 	@Query("""
     SELECT DISTINCT p FROM Psychologist p
     JOIN p.specializations s
-    WHERE S =:specialization AND p.isActive = true
+    WHERE s =:specialization AND p.isActive = true
     """
 	)
 	List<Psychologist> findBySpecialization(
@@ -49,10 +50,10 @@ public interface PsychologistRepository extends JpaRepository<Psychologist, Long
 	WHERE l.city = :city
 	AND s = :specialization
 	AND p.isActive = true
-	AND (:sessionMode = 'INDIFFERENT'
-		OR(:sessionMode = 'ONLINE' AND p.offersOnlineSession = true )
-		OR(:sessionMode = 'IN_PERSON' AND p.offersInPersonSession = true)
-		OR(:sessionMode = 'MIXED' AND  p.offersOnlineSession = true  AND  p.offersInPersonSession = true))
+	AND (CAST(:sessionMode AS string) = 'INDIFFERENT'
+		OR(CAST(:sessionMode AS string) = 'ONLINE' AND p.offersOnlineSessions = true )
+		OR(CAST(:sessionMode AS string) = 'IN_PERSON' AND p.offersInPersonSessions = true)
+		OR(CAST(:sessionMode AS string) = 'MIXED' AND  p.offersOnlineSessions = true  AND  p.offersInPersonSessions = true))
 	""")
 	List<Psychologist> findSuitablePsychologists(
 			@Param("city") String city,
