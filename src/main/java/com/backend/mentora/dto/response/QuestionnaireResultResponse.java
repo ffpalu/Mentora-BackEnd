@@ -15,7 +15,7 @@ public class QuestionnaireResultResponse {
 
     private Long id;
     private Priority calculatedPriority;
-    private PsychologistSpecialization specialization;
+    private PsychologistSpecialization requiredSpecialization;
     private LocalDateTime completedAt;
 
     private String priorityMessage;
