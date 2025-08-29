@@ -49,6 +49,8 @@ public class QuestionnaireService {
             questionnaire.setMainReasons(objectMapper.writeValueAsString(request.getMainReasons()));
             questionnaire.setEmotionalStates(objectMapper.writeValueAsString(request.getEmotionalStates()));
             questionnaire.setAssociatedBehaviors(objectMapper.writeValueAsString(request.getAssociatedBehaviors()));
+            questionnaire.setImpactLevel(objectMapper.writeValueAsString(request.getImpactLevel()));
+            questionnaire.setMainReasonDuration(objectMapper.writeValueAsString(request.getMainReasonDuration()));
         } catch (JsonProcessingException e) {
             throw new ValidationException("Errore processamento dati questionario");
         }
@@ -61,7 +63,6 @@ public class QuestionnaireService {
         questionnaire.setHasSocialSupport(request.getHasSocialSupport());
         questionnaire.setShowsDepressiveSymptoms(request.getShowDepressiveSymptoms());
         questionnaire.setDepressiveSymptomsMonths(request.getDepressiveSymptomsMonths());
-        questionnaire.setImpactLevel(request.getImpactLevel());
         questionnaire.setAddictionType(request.getAddictionType());
         questionnaire.setIsInRehabilitation(request.getIsInRehabilitation());
         questionnaire.setViolentBehaviorsFrequency(request.getViolentBehavioursFrequency());

@@ -28,6 +28,9 @@ public class ClientRegistrationRequest {
     @Max(value = 120, message = "Età deve essere al massimo di 120")
     private Integer age;
 
+    @NotNull
+    private String preferredSessionMode;
+
     private String phoneNumber;
     private String city;
     private String region;

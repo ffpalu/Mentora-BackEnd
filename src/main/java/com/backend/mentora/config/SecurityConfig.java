@@ -60,11 +60,13 @@ public class SecurityConfig {
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/h2-console/**").permitAll()
+						.requestMatchers("/error").permitAll()
 						.requestMatchers("/api/auth/**").permitAll()
 						.requestMatchers("/api/test/**").permitAll()
 						.requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
 						.requestMatchers("/api/users/**").authenticated()
 						.requestMatchers("/api/questionnaire/**").authenticated()
+						.requestMatchers("/api/psychologists/**").authenticated()
 						.anyRequest().authenticated()
 				)
 			.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))

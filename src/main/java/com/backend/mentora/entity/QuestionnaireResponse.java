@@ -11,8 +11,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "questionnaire_responses")
@@ -31,6 +34,9 @@ public class QuestionnaireResponse {
 
     @Column(name = "main_reasons", columnDefinition = "TEXT")
     private String mainReasons;
+
+    @Column(name = "main_reasons_durations", columnDefinition = "TEXT")
+    private String mainReasonDuration;
 
     @Column(name = "emotional_states", columnDefinition = "TEXT")
     private String emotionalStates;
@@ -65,7 +71,7 @@ public class QuestionnaireResponse {
     private Integer depressiveSymptomsMonths;
 
     @Column(name = "impact_level")
-    private Integer impactLevel;
+    private String impactLevel;
 
     @Column(name = "addiction_type")
     private String addictionType;
@@ -106,16 +112,110 @@ public class QuestionnaireResponse {
     }
 
     private boolean isHighPriority() {
-        return (mainReasons!= null &&
-                (mainReasons.contains("Dipendenze") || mainReasons.contains("Esperienze traumatiche recenti"))) ||
-                (violentBehaviorsFrequency != null && violentBehaviorsFrequency.contains("Spesso"));
+
+        if(mainReasons != null && mainReasons.contains("Dipendenze") || mainReasons.contains("Esperienze traumatiche recenti"))
+            return true;
+
+        if(mainReasons.contains("Difficoltà emotive")){
+            if(emotionalDurationMonths != null && emotionalDurationMonths >= 4)
+                return true;
+            if(emotionalStates.contains("3") || emotionalStates.contains("4"))
+                return true;
+        }
+
+        if (associatedBehaviors != null && (
+                associatedBehaviors.contains("autolesivi") ||
+                associatedBehaviors.contains("violenti") ||
+                associatedBehaviors.contains("depressivo") ||
+                associatedBehaviors.contains("impulsive o esplosive") ||
+                associatedBehaviors.contains("disconnessione da se stessi") ||
+                behaviorsDurationMonths >= 4 ||
+                violentBehaviorsFrequency.contains("Spesso") ||
+                violentBehaviorsFrequency.contains("Ogni tanto")
+        ))
+            return true;
+
+        List<String> mainReasonsList = Arrays.stream(mainReasons.split(",")).toList();
+        List<Integer> durationslist = Arrays.stream(mainReasonDuration.split(",")).map((Integer::parseInt)).collect(Collectors.toList());
+        List<Integer> impactList = Arrays.stream(impactLevel.split(",")).map((Integer::parseInt)).collect(Collectors.toList());
+
+        if(mainReasonsList.contains("Lutto") && (durationslist.get(mainReasonsList.indexOf("Lutto")) >= 6 || !hasSocialSupport || showsDepressiveSymptoms))
+            return true;
+
+        if(mainReasonsList.contains("Problemi relazionali") && (durationslist.get(mainReasonsList.indexOf("Problemi relazionali")) >= 4 || impactList.get(mainReasonsList.indexOf("Problemi relazionali")) > 2))
+            return true;
+
+        if(mainReasonsList.contains("Ansia legata al futuro") && impactList.get(mainReasonsList.indexOf("Ansia legata al futuro")) > 3)
+            return true;
+
+        if (mainReasonsList.contains("Difficoltà scolastiche o accademiche") && impactList.get(mainReasonsList.indexOf("Difficoltà scolastiche o accademiche")) > 3)
+            return  true;
+
+        if (mainReasonsList.contains("Solitudine o isolamento sociale") && (
+                durationslist.get(mainReasonsList.indexOf("Solitudine o isolamento sociale")) >= 4 ||
+                impactList.get(mainReasonsList.indexOf("Solitudine o isolamento sociale")) > 3 ||
+                (showsDepressiveSymptoms != null && showsDepressiveSymptoms)
+        ))
+            return true;
+
+        if (mainReasonsList.contains("Difficoltà economiche o finanziarie") && (
+                impactList.get(mainReasonsList.indexOf("Difficoltà economiche o finanziarie")) > 3 ||
+                (showsDepressiveSymptoms != null && showsDepressiveSymptoms)
+        ))
+            return true;
+
+        return mainReasonsList.contains("Disturbi alimentari") && (
+                durationslist.get(mainReasonsList.indexOf("Disturbi alimentari")) >= 6 ||
+                        impactList.get(mainReasonsList.indexOf("Disturbi alimentari")) > 2 ||
+                        (hasSocialSupport != null && !hasSocialSupport)
+        );
+
+
     }
 
     private boolean isModeratePriority() {
-        return (emotionalDurationMonths != null && emotionalDurationMonths >= 1) ||
-                (showsDepressiveSymptoms != null && showsDepressiveSymptoms &&
-                        depressiveSymptomsMonths!= null && depressiveSymptomsMonths >= 1) ||
-                (impactLevel != null && impactLevel >= 3);
+
+        if(mainReasons != null && mainReasons.contains("Difficoltà emotive")){
+            if(emotionalDurationMonths != null && emotionalDurationMonths >= 1)
+                return true;
+        }
+
+        if (associatedBehaviors != null && (
+                associatedBehaviors.contains("Isolamento sociale") ||
+                associatedBehaviors.contains("Cambiamenti o comportamenti impulsivi") ||
+                associatedBehaviors.contains("uso di alcol")
+        ))
+            return true;
+
+        List<String> mainReasonsList = Arrays.stream(mainReasons.split(",")).toList();
+        List<Integer> durationslist = Arrays.stream(mainReasonDuration.split(",")).map((Integer::parseInt)).collect(Collectors.toList());
+        List<Integer> impactList = Arrays.stream(impactLevel.split(",")).map((Integer::parseInt)).collect(Collectors.toList());
+
+        if(mainReasonsList.contains("Lutto") && (durationslist.get(mainReasonsList.indexOf("Lutto")) >= 4))
+            return true;
+
+        if(mainReasonsList.contains("Problemi relazionali") && (durationslist.get(mainReasonsList.indexOf("Problemi relazionali")) >= 1 ))
+            return true;
+
+        if(mainReasonsList.contains("Ansia legata al futuro") && impactList.get(mainReasonsList.indexOf("Ansia legata al futuro")) == 3)
+            return true;
+
+        if (mainReasonsList.contains("Difficoltà scolastiche o accademiche") && impactList.get(mainReasonsList.indexOf("Difficoltà scolastiche o accademiche")) == 3)
+            return  true;
+
+        if (mainReasonsList.contains("Solitudine o isolamento sociale") && (
+                        impactList.get(mainReasonsList.indexOf("Solitudine o isolamento sociale")) == 3
+        ))
+            return true;
+
+        if (mainReasonsList.contains("Difficoltà economiche o finanziarie") && (
+                impactList.get(mainReasonsList.indexOf("Difficoltà economiche o finanziarie")) == 3
+        ))
+            return true;
+
+        return mainReasonsList.contains("Disturbi alimentari") && (
+                durationslist.get(mainReasonsList.indexOf("Disturbi alimentari")) >= 1
+        );
     }
 
     public List<String> getMainReasonsAsList() {

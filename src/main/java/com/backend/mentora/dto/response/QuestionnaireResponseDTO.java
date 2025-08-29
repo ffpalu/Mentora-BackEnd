@@ -19,6 +19,8 @@ public class QuestionnaireResponseDTO {
 
     private String mainReasons;
 
+    private String mainReasonDuration;
+
     private String emotionalStates;
 
     private Integer emotionalDurationMonths;
@@ -39,7 +41,7 @@ public class QuestionnaireResponseDTO {
 
     private Integer depressiveSymptomsMonths;
 
-    private Integer impactLevel;
+    private String impactLevel;
 
     private String addictionType;
 

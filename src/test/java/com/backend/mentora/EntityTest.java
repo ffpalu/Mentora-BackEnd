@@ -110,7 +110,6 @@ public class EntityTest {
 		questionnaire.setEmotionalDurationMonths(3);
 		questionnaire.setShowsDepressiveSymptoms(true);
 		questionnaire.setDepressiveSymptomsMonths(2);
-		questionnaire.setImpactLevel(3);
 
 		// When
 		entityManager.persistAndFlush(questionnaire);

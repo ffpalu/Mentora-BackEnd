@@ -15,6 +15,9 @@ public class QuestionnaireRequest {
     @NotNull
     private List<String> mainReasons;
 
+    @NotNull
+    private List<String> mainReasonDuration;
+
     private List<Map<String, Object>> emotionalStates;
 
     @Min(0) @Max(120)
@@ -35,8 +38,8 @@ public class QuestionnaireRequest {
     @Min(0) @Max(120)
     private Integer depressiveSymptomsMonths;
 
-    @Min(1) @Max(4)
-    private Integer impactLevel;
+    @NotNull
+    private List<String> impactLevel;
 
 
     private String addictionType;
