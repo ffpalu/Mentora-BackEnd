@@ -133,13 +133,15 @@ public class MatchingService {
 				throw new ValidationException("Not authorized to respond to this request");
 			}
 
+
 			if(status == RequestStatus.ACCEPTED) {
 				relation.accept(note);
 			} else if (status == RequestStatus.REJECTED) {
 				relation.reject(note);
 			}
 
-			relationRepository.save(relation);
+
+			relationRepository.saveAndFlush(relation);
 
 
 		}
