@@ -121,6 +121,7 @@ public class MatchingService {
 							.collect(Collectors.toList());
 		}
 
+		@Transactional
 		public void respondToTherapyRequest(String psychologistEmail, Long requestId, RequestStatus status, String note) {
 
 			Psychologist psychologist = psychologistRepository.findByEmail(psychologistEmail)
