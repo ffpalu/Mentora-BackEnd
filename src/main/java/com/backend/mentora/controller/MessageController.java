@@ -19,6 +19,7 @@ public class MessageController {
 
 	private final MessageService messageService;
 
+	@PostMapping
 	public ResponseEntity<MessageResponse> sendMessage(
 					@Valid @RequestBody SendMessageRequest request,
 					Authentication auth
@@ -50,6 +51,7 @@ public class MessageController {
 		return ResponseEntity.ok("Message marked as read");
 	}
 
+	@GetMapping("/unread/count")
 	public ResponseEntity<Map<String, Long>> getUnreadCount(Authentication auth) {
 		Long count = messageService.getUnreadCount(auth.getName());
 		return ResponseEntity.ok(Map.of("unreadCount", count));
