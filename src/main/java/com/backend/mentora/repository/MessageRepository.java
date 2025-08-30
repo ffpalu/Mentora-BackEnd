@@ -19,7 +19,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 			  OR (m.sender.id = :user2 AND m.recipient.id = :user1)
 			ORDER BY m.sentAt DESC
 """)
-	List<Appointment> findConversation(
+	List<Message> findConversation(
 					@Param("user1") Long user1,
 					@Param("user2") Long user2,
 					Pageable pageable

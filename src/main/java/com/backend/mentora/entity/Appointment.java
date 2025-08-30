@@ -39,8 +39,8 @@ public class Appointment {
 	private SessionMode sessionMode;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "appointment_status", nullable = false)
-	private AppointmentStatus appointmentStatus = AppointmentStatus.REQUESTED;
+	@Column( nullable = false)
+	private AppointmentStatus status = AppointmentStatus.REQUESTED;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "location_id")
