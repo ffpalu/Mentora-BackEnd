@@ -50,6 +50,7 @@ public class AuthService {
 
         return JwtResponse.builder()
                 .token(token)
+								.type("Bearer")
                 .user(userResponse)
                 .build();
     }
