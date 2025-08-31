@@ -54,7 +54,7 @@ public class PsychologistController {
 	@GetMapping("/requests")
 	@PreAuthorize("hasRole('PSYCHOLOGIST')")
 	public ResponseEntity<List<ClientRequestResponse>> getClientRequests(Authentication auth) {
-		List<ClientRequestResponse> request = matchingService.getClientRequests(auth.getName());
+		List<ClientRequestResponse> request = matchingService.getClientRequests(auth.getName(), RequestStatus.PENDING);
 		return ResponseEntity.ok(request);
 	}
 

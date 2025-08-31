@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface ClientPsychologistRelationRepository extends JpaRepository<ClientPsychologistRelation, Long> {
 	List<ClientPsychologistRelation> findByClientAndIsActive(Client client, Boolean isActive);
+	List<ClientPsychologistRelation> findByClient(Client client);
 	List<ClientPsychologistRelation> findByPsychologistAndStatus(Psychologist psychologist, RequestStatus status);
 	boolean existsByClientAndPsychologistAndIsActive(Client client, Psychologist psychologist, Boolean isActive);
 }

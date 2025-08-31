@@ -17,5 +17,7 @@ public class ClientRequestResponse {
 	private RequestStatus status;
 	private LocalDateTime requestedAt;
 	private String clientPriority;
+	private String psychologistName;
+	private String psychologistFeedback;
 
 }

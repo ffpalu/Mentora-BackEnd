@@ -42,6 +42,8 @@ public class QuestionnaireController {
                 .client(questionnaire.getClient().getFullName())
                 .mainReasons(questionnaire.getMainReasons())
                 .mainReasonDuration(questionnaire.getMainReasonDuration())
+								.calculatedPriority(questionnaire.getCalculatedPriority())
+								.requiredSpecialization(questionnaire.getRequiredSpecialization())
                 .emotionalStates(questionnaire.getEmotionalStates())
                 .emotionalDurationMonths(questionnaire.getEmotionalDurationMonths())
                 .associatedBehaviors(questionnaire.getAssociatedBehaviors())

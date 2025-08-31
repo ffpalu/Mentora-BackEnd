@@ -108,13 +108,25 @@ public class MatchingService {
 		}
 
 
+		@Transactional(readOnly = true)
+		public List<ClientRequestResponse> getClientRequests(String clientEmail) {
+			Client client = clientRepository.findByEmail(clientEmail)
+							.orElseThrow(() -> new ValidationException("Client with email " + clientEmail + " not found"));
+
+
+			List<ClientPsychologistRelation> requests = relationRepository.findByClientAndIsActive(client, true);
+
+			return requests.stream()
+							.map(this::mapToClientRequest)
+							.collect(Collectors.toList());
+		}
 
 		@Transactional(readOnly = true)
-		public  List<ClientRequestResponse> getClientRequests(String psychologistEmail) {
+		public  List<ClientRequestResponse> getClientRequests(String psychologistEmail, RequestStatus requestStatus) {
 			Psychologist psychologist = psychologistRepository.findByEmail(psychologistEmail)
 							.orElseThrow(() -> new ValidationException("Psychologist with email " + psychologistEmail + " not found"));
 
-			List<ClientPsychologistRelation> requests = relationRepository.findByPsychologistAndStatus(psychologist, RequestStatus.PENDING);
+			List<ClientPsychologistRelation> requests = relationRepository.findByPsychologistAndStatus(psychologist, requestStatus);
 
 			return requests.stream()
 							.map(this::mapToClientRequest)
@@ -248,6 +260,8 @@ public class MatchingService {
 							.status(relation.getStatus())
 							.requestedAt(relation.getRequestedAt())
 							.clientPriority(priority)
+							.psychologistName(relation.getPsychologist().getFullName())
+							.psychologistFeedback(relation.getNotes())
 							.build();
 
 		}

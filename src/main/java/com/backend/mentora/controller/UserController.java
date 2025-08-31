@@ -2,8 +2,11 @@ package com.backend.mentora.controller;
 
 
 import com.backend.mentora.dto.request.UpdateProfileRequest;
+import com.backend.mentora.dto.response.ClientRequestResponse;
 import com.backend.mentora.dto.response.ProfileResponse;
 import com.backend.mentora.dto.response.UserResponse;
+import com.backend.mentora.entity.enums.RequestStatus;
+import com.backend.mentora.service.MatchingService;
 import com.backend.mentora.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +15,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+		private final MatchingService matchingService;
 
 
     @GetMapping("/profile")
@@ -60,9 +66,18 @@ public class UserController {
 
     @GetMapping("/clients")
     @PreAuthorize("hasRole('PSYCHOLOGIST')")
-    public ResponseEntity<?> getMyClients(Authentication auth) {
-        //TODO
-        return ResponseEntity.ok("Lista clienti - implementazione futura");
+    public ResponseEntity<List<ClientRequestResponse>> getMyClients(Authentication auth) {
+				List<ClientRequestResponse> response = matchingService.getClientRequests(auth.getName(), RequestStatus.ACCEPTED);
+        return ResponseEntity.ok(response);
     }
+
+		@GetMapping("/myrequests")
+		@PreAuthorize("hasRole('CLIENT')")
+		public ResponseEntity<List<ClientRequestResponse>> getMyRequests(Authentication auth) {
+
+				List<ClientRequestResponse> response = matchingService.getClientRequests(auth.getName());
+
+				return ResponseEntity.ok(response);
+		}
 
 }
