@@ -22,6 +22,9 @@ public class UpdateProfileRequest {
     private String city;
     private String region;
 
+		private String operatingCities;
+		private String operatingRegions;
+
     private String preferredSessionMode;
 
 }

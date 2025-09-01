@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -151,8 +153,15 @@ public class UserService {
             psychologist.setYearsExperience(request.getYearsExperience());
         }
         if(request.getCity() != null && request.getRegion() != null) {
-            Location location = findOrCreateLocation(request.getCity(), request.getRegion());
-            psychologist.getOperatingLocations().add(location);
+					List<String> operatingCity = Arrays.stream(request.getOperatingCities().split(",")).toList();
+					List<String> operatingRegion = Arrays.stream(request.getOperatingRegions().split(",")).toList();
+
+					psychologist.getOperatingLocations().clear();
+
+					for (int i = 0; i < operatingCity.size(); i++) {
+						Location location = findOrCreateLocation(operatingCity.get(i).trim(), operatingRegion.get(i).trim());
+						psychologist.getOperatingLocations().add(location);
+					}
         }
 				if(request.getPreferredSessionMode() != null){
 					psychologist.setOffersOnlineSessions(request.getPreferredSessionMode().equals("ONLINE") || request.getPreferredSessionMode().equals("INDIFFERENT") || request.getPreferredSessionMode().equals("MIXED"));
@@ -204,7 +213,10 @@ public class UserService {
                     .specializations(psychologist.getSpecializations())
                     .operatingCities(psychologist.getOperatingLocations().stream()
                             .map(Location::getCity)
-                            .collect(Collectors.toSet()));
+                            .collect(Collectors.toSet()))
+										.operatingRegions(psychologist.getOperatingLocations().stream()
+														.map(Location::getRegion)
+														.collect(Collectors.toSet()));
         }
         return profileResponseBuilder.build();
 
