@@ -202,7 +202,7 @@ public class UserService {
                     .offersOnlineSessions(psychologist.getOffersOnlineSessions())
                     .offersInPersonSessions(psychologist.getOffersInPersonSessions())
                     .specializations(psychologist.getSpecializations())
-                    .operatingCites(psychologist.getOperatingLocations().stream()
+                    .operatingCities(psychologist.getOperatingLocations().stream()
                             .map(Location::getCity)
                             .collect(Collectors.toSet()));
         }
