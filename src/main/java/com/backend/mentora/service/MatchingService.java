@@ -57,7 +57,7 @@ public class MatchingService {
 
 			List<Psychologist> psychologists;
 
-			if(city != null || specialization != null) {
+			if(city != null || specialization != null || sessionMode != null) {
 				psychologists = findByFilters(city, specialization, sessionMode);
 			} else {
 				psychologists = findRecommendedPsychologists(client);
