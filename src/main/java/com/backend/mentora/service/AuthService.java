@@ -58,20 +58,23 @@ public class AuthService {
     public UserResponse registerClient(ClientRegistrationRequest request) {
         if(userRepository.existsByEmail(request.getEmail()))
             throw new ValidationException("Email already exists");
+				Client client = new Client(
+								request.getEmail(),
+								passwordEncoder.encode(request.getPassword()),
+								request.getFirstName(),
+								request.getLastName(),
+								request.getAge()
+				);
 
-        Location location = findOrCreateLocation(request.getCity(), request.getRegion());
+				if(request.getCity() != null) {
+					Location location = findOrCreateLocation(request.getCity(), request.getRegion());
 
-        Client client = new Client(
-                request.getEmail(),
-                passwordEncoder.encode(request.getPassword()),
-                request.getFirstName(),
-                request.getLastName(),
-                request.getAge()
-        );
+					client.setLocation(location);
+
+				}
+
 
         client.setPhoneNumber(request.getPhoneNumber());
-        client.setLocation(location);
-
         Client savedClient = clientRepository.save(client);
 
         return mapToUserResponse(savedClient);
@@ -82,22 +85,26 @@ public class AuthService {
         if(userRepository.existsByEmail(request.getEmail()))
             throw new ValidationException("Email already exists");
 
-        Location location = findOrCreateLocation(request.getCity(), request.getRegion());
+			Psychologist psychologist = new Psychologist(
+							request.getEmail(),
+							passwordEncoder.encode(request.getPassword()),
+							request.getFirstName(),
+							request.getLastName(),
+							request.getLicenseNumber()
+			);
 
-        Psychologist psychologist = new Psychologist(
-                request.getEmail(),
-                passwordEncoder.encode(request.getPassword()),
-                request.getFirstName(),
-                request.getLastName(),
-                request.getLicenseNumber()
-        );
+				if(request.getCity() != null && request.getRegion() != null) {
+					Location location = findOrCreateLocation(request.getCity(), request.getRegion());
+
+					psychologist.getOperatingLocations().add(location);
+				}
+
 
         psychologist.setPhoneNumber(request.getPhoneNumber());
         psychologist.setBiography(request.getBiography());
         psychologist.setYearsExperience(request.getYearsExperience());
         psychologist.setOffersOnlineSessions(request.getOffersOnlineSession());
         psychologist.setOffersInPersonSessions(request.getOffersInPersonSession());
-        psychologist.getOperatingLocations().add(location);
 
         Psychologist savedPsychologist = psychologistRepository.save(psychologist);
 
