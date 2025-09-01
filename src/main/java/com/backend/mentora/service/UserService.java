@@ -150,7 +150,7 @@ public class UserService {
         if(request.getYearsExperience() != null) {
             psychologist.setYearsExperience(request.getYearsExperience());
         }
-        if(request.getCity() != null && request.getRegion() != null) {
+        if(request.getOperatingCities() != null && request.getOperatingRegions() != null) {
 					List<String> operatingCity = Arrays.stream(request.getOperatingCities().split(",")).toList();
 					List<String> operatingRegion = Arrays.stream(request.getOperatingRegions().split(",")).toList();
 
