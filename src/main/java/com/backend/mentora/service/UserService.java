@@ -7,6 +7,7 @@ import com.backend.mentora.entity.Client;
 import com.backend.mentora.entity.Location;
 import com.backend.mentora.entity.Psychologist;
 import com.backend.mentora.entity.User;
+import com.backend.mentora.entity.enums.SessionMode;
 import com.backend.mentora.exception.UnauthorizedException;
 import com.backend.mentora.exception.ValidationException;
 import com.backend.mentora.repository.ClientRepository;
@@ -120,6 +121,26 @@ public class UserService {
             Location location = findOrCreateLocation(request.getCity(), request.getRegion());
             client.setLocation(location);
         }
+				if (request.getPreferredSessionMode() != null) {
+					SessionMode sessionMode;
+					switch (request.getPreferredSessionMode()) {
+						case "ONLINE":
+							sessionMode = SessionMode.ONLINE;
+							break;
+						case "IN_PERSON":
+							sessionMode = SessionMode.IN_PERSON;
+							break;
+						case "MIXED":
+							sessionMode = SessionMode.MIXED;
+							break;
+						case "INDIFFERENT":
+							sessionMode = SessionMode.INDIFFERENT;
+							break;
+						default:
+							sessionMode = SessionMode.INDIFFERENT;
+					}
+					client.setPreferredSessionMode(sessionMode);
+				}
     }
 
     private void updatePsychologistSpecificFields(Psychologist psychologist, UpdateProfileRequest request) {
@@ -133,6 +154,10 @@ public class UserService {
             Location location = findOrCreateLocation(request.getCity(), request.getRegion());
             psychologist.getOperatingLocations().add(location);
         }
+				if(request.getPreferredSessionMode() != null){
+					psychologist.setOffersOnlineSessions(request.getPreferredSessionMode().equals("ONLINE") || request.getPreferredSessionMode().equals("INDIFFERENT") || request.getPreferredSessionMode().equals("MIXED"));
+					psychologist.setOffersInPersonSessions(request.getPreferredSessionMode().equals("IN_PERSON") || request.equals("INDIFFERENT") || request.getPreferredSessionMode().equals("MIXED"));
+				}
     }
 
     private Location findOrCreateLocation(String city, String region){
