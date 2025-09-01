@@ -19,9 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -159,7 +157,7 @@ public class UserService {
 					psychologist.getOperatingLocations().clear();
 
 					for (int i = 0; i < operatingCity.size(); i++) {
-						Location location = findOrCreateLocation(operatingCity.get(i).trim(), operatingRegion.get(i).trim());
+						Location location = findOrCreateLocation(operatingCity.get(i), operatingRegion.get(i));
 						psychologist.getOperatingLocations().add(location);
 					}
         }
@@ -203,6 +201,16 @@ public class UserService {
         }
 
         else if(user instanceof Psychologist psychologist) {
+					List<Location> location = new ArrayList<>(psychologist.getOperatingLocations());
+
+					List<String> cities = new ArrayList<>();
+					List<String> regions = new ArrayList<>();
+					for(Location loc : location){
+						cities.add(loc.getCity());
+						regions.add(loc.getRegion());
+					}
+
+
             profileResponseBuilder
                     .licenseNumber(psychologist.getLicenseNumber())
                     .biography(psychologist.getBiography())
@@ -211,12 +219,8 @@ public class UserService {
                     .offersOnlineSessions(psychologist.getOffersOnlineSessions())
                     .offersInPersonSessions(psychologist.getOffersInPersonSessions())
                     .specializations(psychologist.getSpecializations())
-                    .operatingCities(psychologist.getOperatingLocations().stream()
-                            .map(Location::getCity)
-                            .collect(Collectors.toSet()))
-										.operatingRegions(psychologist.getOperatingLocations().stream()
-														.map(Location::getRegion)
-														.collect(Collectors.toSet()));
+                    .operatingCities(cities)
+										.operatingRegions(regions);
         }
         return profileResponseBuilder.build();
 
