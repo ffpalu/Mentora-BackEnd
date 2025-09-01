@@ -162,8 +162,8 @@ public class UserService {
 					}
         }
 				if(request.getPreferredSessionMode() != null){
-					psychologist.setOffersOnlineSessions(request.getPreferredSessionMode().equals("ONLINE") || request.getPreferredSessionMode().equals("INDIFFERENT") || request.getPreferredSessionMode().equals("MIXED"));
-					psychologist.setOffersInPersonSessions(request.getPreferredSessionMode().equals("IN_PERSON") || request.equals("INDIFFERENT") || request.getPreferredSessionMode().equals("MIXED"));
+					psychologist.setOffersOnlineSessions(request.getPreferredSessionMode().equals("ONLINE") || request.getPreferredSessionMode().equals("BOTH"));
+					psychologist.setOffersInPersonSessions(request.getPreferredSessionMode().equals("IN_PERSON") || request.getPreferredSessionMode().equals("BOTH"));
 				}
     }
 
