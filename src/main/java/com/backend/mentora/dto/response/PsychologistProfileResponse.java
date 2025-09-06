@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -22,6 +23,7 @@ public class PsychologistProfileResponse {
 	private Boolean offersOnlineSessions;
 	private Boolean offersInPersonSessions;
 	private Set<PsychologistSpecialization> specializations;
-	private Set<String> operatingCities;
+	private List<String> operatingCities;
+	private List<String> operatingRegions;
 	private Boolean isAvailable;
 }

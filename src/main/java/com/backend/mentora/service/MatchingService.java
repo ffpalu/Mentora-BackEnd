@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -224,6 +225,15 @@ public class MatchingService {
 
 
 		private PsychologistProfileResponse mapToPsychologistProfile(Psychologist p) {
+			List<Location> location = new ArrayList<>(p.getOperatingLocations());
+
+			List<String> cities = new ArrayList<>();
+			List<String> regions = new ArrayList<>();
+			for(Location loc : location){
+				cities.add(loc.getCity());
+				regions.add(loc.getRegion());
+			}
+
 			return PsychologistProfileResponse.builder()
 							.id(p.getId())
 							.firstName(p.getFirstName())
@@ -236,10 +246,8 @@ public class MatchingService {
 							.offersOnlineSessions(p.getOffersOnlineSessions())
 							.offersInPersonSessions(p.getOffersInPersonSessions())
 							.specializations(p.getSpecializations())
-							.operatingCities(p.getOperatingLocations().stream()
-											.map(Location::getCity)
-											.collect(Collectors.toSet())
-							)
+							.operatingCities(cities)
+							.operatingRegions(regions)
 							.isAvailable(p.getIsActive())
 							.build();
 		}
