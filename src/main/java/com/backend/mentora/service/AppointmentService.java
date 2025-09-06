@@ -4,17 +4,20 @@ import com.backend.mentora.dto.request.AppointmentRequest;
 import com.backend.mentora.dto.response.AppointmentResponse;
 import com.backend.mentora.entity.Appointment;
 import com.backend.mentora.entity.Client;
+import com.backend.mentora.entity.Location;
 import com.backend.mentora.entity.Psychologist;
 import com.backend.mentora.entity.enums.AppointmentStatus;
 import com.backend.mentora.exception.ValidationException;
 import com.backend.mentora.repository.AppointmentRepository;
 import com.backend.mentora.repository.ClientRepository;
+import com.backend.mentora.repository.LocationRepository;
 import com.backend.mentora.repository.PsychologistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +27,7 @@ public class AppointmentService {
 	private final AppointmentRepository appointmentRepository;
 	private final ClientRepository clientRepository;
 	private final PsychologistRepository psychologistRepository;
+	private final LocationRepository locationRepository;
 
 
 	public AppointmentResponse createAppointment(String userEmail, AppointmentRequest request) {
@@ -41,6 +45,16 @@ public class AppointmentService {
 		appointment.setSessionMode(request.getSessionMode());
 		appointment.setNotes(request.getNotes());
 		appointment.setStatus(AppointmentStatus.REQUESTED);
+
+		if(request.getLocation() != null) {
+			String[] locationData = request.getLocation().split(",");
+
+			Location location = locationRepository.findByCityAndRegion(locationData[0].trim(), locationData[1].trim())
+							.orElseThrow(() -> new ValidationException("Location not found"));
+
+			appointment.setLocation(location);
+		}
+
 
 		Appointment saved = appointmentRepository.save(appointment);
 

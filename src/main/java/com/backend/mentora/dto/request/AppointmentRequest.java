@@ -21,6 +21,6 @@ public class AppointmentRequest {
 	@NotNull
 	private SessionMode sessionMode;
 
-	private Long locationId; // Optional, required if sessionMode is IN_PERSON
+	private String location; // Optional, required if sessionMode is IN_PERSON
 	private String notes;
 }
