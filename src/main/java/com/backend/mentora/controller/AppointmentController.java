@@ -6,7 +6,9 @@ import com.backend.mentora.entity.enums.AppointmentStatus;
 import com.backend.mentora.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Role;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ public class AppointmentController {
 	private final AppointmentService appointmentService;
 
 	@PostMapping
+	@PreAuthorize("hasRole('CLIENT')")
 	public ResponseEntity<AppointmentResponse> createAppointment(
 					@Valid @RequestBody AppointmentRequest request,
 					Authentication auth
