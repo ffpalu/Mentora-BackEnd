@@ -130,8 +130,10 @@ public class QuestionnaireResponse {
                 associatedBehaviors.contains("impulsive o esplosive") ||
                 associatedBehaviors.contains("disconnessione da se stessi") ||
                 behaviorsDurationMonths >= 4 ||
+								violentBehaviorsFrequency != null && (
                 violentBehaviorsFrequency.contains("Spesso") ||
                 violentBehaviorsFrequency.contains("Ogni tanto")
+								)
         ))
             return true;
 
