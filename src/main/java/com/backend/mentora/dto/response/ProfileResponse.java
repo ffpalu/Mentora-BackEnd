@@ -37,6 +37,6 @@ public class ProfileResponse {
     private Boolean offersInPersonSessions;
     private Set<PsychologistSpecialization> specializations;
     private List<String> operatingCities;
-		private List<String> operatingRegions;
+    private List<String> operatingRegions;
 
 }

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,10 +39,9 @@ public class QuestionnaireService {
         Client client = clientRepository.findByEmail(clientEmail)
                 .orElseThrow(() -> new ValidationException(("Client not found")));
 
-        questionnaireRepository.findByClient(client)
-                .ifPresent(questionnaireRepository::delete);
+        QuestionnaireResponse questionnaire = questionnaireRepository.findByClient(client)
+                .orElse(new QuestionnaireResponse());
 
-        QuestionnaireResponse questionnaire = new QuestionnaireResponse();
         questionnaire.setClient(client);
 
 
